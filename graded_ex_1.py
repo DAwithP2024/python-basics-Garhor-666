@@ -45,24 +45,31 @@ def display_products(products_list):
 
 
 def display_sorted_products(products_list, sort_order):
-    """Sort and display products based on user-selected order."""
-    if sort_order == 1:  
-        sorted_list = sorted(products_list, key=lambda x: x[1])
-    elif sort_order == 2:  
-        sorted_list = sorted(products_list, key=lambda x: x[1], reverse=True)
-    return sorted_list
+    # Sort products list based on price
+    if sort_order == "asc":
+        return sorted(products_list, key=lambda x: x[1])  # Sort by price in ascending order
+    elif sort_order == "desc":
+        return sorted(products_list, key=lambda x: x[1], reverse=True)  # Sort by price in descending order
+
 
 
 def add_to_cart(cart, product, quantity):
-    """Add selected product and quantity to the shopping cart."""
-    cart.append((product, quantity))
+    # Unpack product name and price from product tuple
+    product_name, product_price = product
+    # Append product to cart as a tuple (product_name, product_price, quantity)
+    cart.append((product_name, product_price, quantity))
+
 
 
 def display_cart(cart):
-    """Display the contents of the shopping cart."""
-    print("Your cart contains:")
-    for product, quantity in cart:
-        print(f"{product}: {quantity}")
+    total_cost = 0
+    for item in cart:
+        product_name, product_price, quantity = item
+        item_total = product_price * quantity
+        total_cost += item_total
+        print(f"{product_name} - ${product_price} x {quantity} = ${item_total}")
+    print(f"Total cost: ${total_cost}")
+
 
 
 def generate_receipt(name, email, cart, total_cost, address):
